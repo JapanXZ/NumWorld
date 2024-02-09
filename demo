@@ -1,0 +1,101 @@
+import time
+import random
+
+class Room:
+    def __init__(self, name, description, textures=None, event=None, choices=None):
+        self.name = name
+        self.description = description
+        self.textures = textures or []
+        self.event = event
+        self.choices = choices or {}
+
+    def display_textures(self):
+        if self.textures:
+            print("\nYou see:")
+            for texture in self.textures:
+                print(f"- {texture}")
+        else:
+            print("\nThe area seems calm and peaceful.")
+
+    def display_event(self):
+        if self.event:
+            print(f"\nYou encounter: {self.event}")
+
+    def display_choices(self):
+        print("\n" + self.description)
+        self.display_textures()
+        self.display_event()
+        print("\nWhat will you do?")
+        for key, value in self.choices.items():
+            print(f"{key}. {value}")
+
+def generate_monster():
+    monsters = ["Goblin", "Skeleton", "Orc", "Dragon"]
+    return random.choice(monsters)
+
+def main():
+    dungeon1 = Room("Dungeon Entrance", "You stand at the entrance of a dark dungeon.", ["Cobwebs", "Creaking Doors"], None, {"1": "Enter the dungeon", "2": "Explore the forest"})
+    dungeon2 = Room("Monster Lair", "You find yourself in a room filled with monsters!", ["Slime Puddles", "Eerie Sounds"], generate_monster(), {"1": "Fight the monsters", "2": "Try to sneak out"})
+    dungeon3 = Room("Treasure Chamber", "You discover a chamber with glittering treasures!", ["Gold Coins", "Precious Gems"], None, {"1": "Take the treasure", "2": "Leave the chamber"})
+
+    current_room = dungeon1
+
+    while True:
+        current_room.display_choices()
+        choice = input("Enter your choice: ")
+
+        if choice in current_room.choices:
+            print(f"\nYou chose to {current_room.choices[choice]}")
+            time.sleep(1)
+
+            if current_room == dungeon1 and choice == "1":
+                current_room = dungeon2
+            elif current_room == dungeon1 and choice == "2":
+                current_room = Room("Forest", "You return to the forest.", ["Trees", "Birds"], None, {"1": "Enter the dungeon", "2": "Continue exploring the forest"})
+            elif current_room == dungeon2 and choice == "1":
+                monster = generate_monster()
+                print(f"\nYou bravely fight against the {monster}!")
+                time.sleep(1)
+                if random.choice([True, False]):
+                    print(f"You defeated the {monster}! Well done!")
+                    current_room = dungeon3
+                else:
+                    print(f"The {monster} defeated you. Game over!")
+                    break
+            elif current_room == dungeon2 and choice == "2":
+                print("\nYou sneak out of the monster lair.")
+                current_room = dungeon1
+            elif current_room == dungeon3 and choice == "1":
+                print("\nCongratulations! You took the treasure. You win!")
+                break
+            elif current_room == dungeon3 and choice == "2":
+                print("\nYou decide to leave the treasure chamber empty-handed.")
+                current_room = dungeon1
+
+        else:
+            print("\nInvalid choice. Try again.")
+
+    if current_room.name == "Treasure Chamber":
+        display_credits()
+
+def display_credits():
+    print("\n------ Credits ------")
+    print("Developed by:")
+    print("- Japan")
+    print("- Peem")
+    print("- Pai")
+    print("\nSupported by:")
+    print("- ChatGPT")
+    print("\nPlayers:")
+    print("- The Stupid Ones (Yes, that's you!)")
+    print("\nNum World")
+    print("Created with Python and a sprinkle of numbers")
+    print("Thanks for playing! You're numerically awesome!")
+    print("---------------------")
+
+if __name__ == "__main__":
+    print("Welcome to Num World!")
+    time.sleep(1)
+    print("Embark on a continuous adventure, face monsters, and discover hidden treasures!")
+    time.sleep(1)
+    main()
