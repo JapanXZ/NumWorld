@@ -85,7 +85,7 @@ def display_credits():
     print("- Peem")
     print("- Pai")
     print("\nSupported by:")
-    print("- ChatGPT")
+    print("- ChatGPT and A.Kannika and A.Mahapan")
     print("\nPlayers:")
     print("- The Stupid Ones (Yes, that's you!)")
     print("\nNum World")
